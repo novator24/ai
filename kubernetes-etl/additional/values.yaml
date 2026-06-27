@@ -1,0 +1,17 @@
+postgresql:
+  image: postgres:15-alpine
+  port: 5432
+  user: kg_user
+  password: kg_password_secure
+  database: knowledge_graph
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+dbt:
+  image: ghcr.io/dbt-labs/dbt-postgres:1.5.0
+  schedule: "0 0 * * *" # Если потребуется перевести в CronJob

@@ -1,0 +1,15 @@
+name: 'knowledge_graph_etl'
+version: '1.0.0'
+config-version: 2
+
+profile: 'knowledge_graph'
+
+model-paths: ["models"]
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  knowledge_graph_etl:
+    kg:
+      +materialized: table

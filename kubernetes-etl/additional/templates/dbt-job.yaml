@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbt-run-job
+  labels:
+    app: dbt-etl
+spec:
+  template:
+    spec:
+      containers:
+      - name: dbt
+        image: {{ .Values.dbt.image }}
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            dbt debug --profiles-dir /dbt_project --project-dir /dbt_project
+            dbt run --profiles-dir /dbt_project --project-dir /dbt_project
+        env:
+          - name: POSTGRES_HOST
+            value: postgresql
+          - name: POSTGRES_USER
+            value: {{ .Values.postgresql.user }}
+          - name: POSTGRES_PASSWORD
+            value: {{ .Values.postgresql.password }}
+          - name: POSTGRES_DB
+            value: {{ .Values.postgresql.database }}
+          - name: POSTGRES_PORT
+            value: "{{ .Values.postgresql.port }}"
+        volumeMounts:
+          - name: dbt-project
+            mountPath: /dbt_project
+      volumes:
+        - name: dbt-project
+          configMap:
+            name: dbt-project-cm
+      restartPolicy: OnFailure
