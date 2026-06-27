@@ -1,0 +1,6 @@
+apiVersion: v2
+name: knowledge-graph-etl
+description: Helm chart для Knowledge Graph на базе PostgreSQL и DBT для развертывания в Gcloud (GKE)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
